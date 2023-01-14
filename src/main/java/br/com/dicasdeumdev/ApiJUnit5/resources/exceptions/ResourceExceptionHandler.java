@@ -1,5 +1,6 @@
 package br.com.dicasdeumdev.ApiJUnit5.resources.exceptions;
 
+import br.com.dicasdeumdev.ApiJUnit5.services.exceptions.DataIntegratyViolationException;
 import br.com.dicasdeumdev.ApiJUnit5.services.exceptions.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -18,5 +19,15 @@ public class ResourceExceptionHandler {
         StandardError standardError = new StandardError(
                 LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+    }
+
+    @ExceptionHandler(DataIntegratyViolationException.class)
+    public ResponseEntity<StandardError> dataIntegratyViolationException(
+            DataIntegratyViolationException ex, HttpServletRequest request) {
+
+        StandardError standardError = new StandardError(
+                LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
     }
 }
