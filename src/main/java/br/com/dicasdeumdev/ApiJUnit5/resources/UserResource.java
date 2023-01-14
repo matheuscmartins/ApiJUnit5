@@ -54,4 +54,12 @@ public class UserResource {
                         userService.create(objDTO).getId()).toUri()).build();
 
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO objDTO) {
+        objDTO.setId(id);
+        //User objUser = userService.update(objDTO);
+
+        return ResponseEntity.ok().body(mapper.map(userService.update(objDTO), UserDTO.class));
+    }
 }
