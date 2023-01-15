@@ -97,7 +97,22 @@ class UserResourceTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(userService.update(userDTO)).thenReturn(user);
+        when(mapper.map(any(), any())).thenReturn(userDTO); //assgura que a conversão sera de obj UserDTO
+
+        ResponseEntity<UserDTO> response = userResource.update(ID, userDTO);
+        assertNotNull(response); //assegura que não seja null
+        assertNotNull(response.getBody()); //assegura que o body não sera null
+        assertEquals(HttpStatus.OK, response.getStatusCode()); //assegura que o status é 200
+        assertEquals(ResponseEntity.class, response.getClass()); //assegura que é uma classe de ResponseEntity
+        assertEquals(UserDTO.class, response.getBody().getClass()); //assegura que o body é uma classe userDTO
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
+        //assegura que os dados de retorno são iguais aos pasados por parametro
+
     }
 
     @Test
