@@ -87,7 +87,13 @@ class UserResourceTest {
         //assegura que os dados de retorno são iguais aos pasados por parametro
     }
     @Test
-    void create() {
+    void whenCreateThenReturnCreated() {
+        when(userService.create(any())).thenReturn((user));
+        ResponseEntity<UserDTO> response = userResource.create(userDTO);
+
+        assertEquals(ResponseEntity.class, response.getClass()); //assegura que é uma classe ResponseEntity
+        assertEquals(HttpStatus.CREATED, response.getStatusCode()); //assegura se o status é CREATED
+        assertNotNull(response.getHeaders().get("Location")); //assegura que no headers vem a chave valor Location
     }
 
     @Test
