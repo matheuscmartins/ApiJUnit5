@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -134,7 +134,12 @@ class UserServiceImplTest {
 
     }
     @Test
-    void delete() {
+    void deleteWhitSuccess() {
+        when(userRepository.findById(anyInt())).thenReturn(optionalUser);
+        doNothing().when(userRepository).deleteById(anyInt()); //não faça nada quando o metodo for chamado passando um int
+        userServiceImpl.delete(ID);
+        verify(userRepository, times(1)).deleteById(anyInt());
+        //verifica quantas vezes o metodo foi chamado e espera que o metodo delete seja chamado uma vez
     }
 
     private void startUser() {
