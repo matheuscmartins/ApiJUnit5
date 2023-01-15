@@ -28,7 +28,7 @@ class UserServiceImplTest {
     public static final String NAME = "Jose Cruz";
     public static final String EMAIL = "josecruz@gmail.com@gmail.com";
     public static final String PASSWORD = "123";
-    public static final String OBJETO_NÃO_ENCONTRADO_NO_ID = "Objeto não encontrado no id: ";
+    public static final String OBJETO_NAO_ENCONTRADO_NO_ID = "Objeto não encontrado no id: ";
     public static final int INDEX = 0;
     @InjectMocks
     private UserServiceImpl userServiceImpl;
@@ -60,12 +60,12 @@ class UserServiceImplTest {
 
     @Test
     void whenFindByIdThenReturnAnObjectNotFoundException() {
-        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NÃO_ENCONTRADO_NO_ID));
+        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO_NO_ID));
         try {
             userServiceImpl.findById(ID);
         } catch (Exception ex){
             assertEquals(ObjectNotFoundException.class, ex.getClass()); //assegure que ambos são iguais
-            assertEquals(OBJETO_NÃO_ENCONTRADO_NO_ID, ex.getMessage()); //assegure que as messagens de erro sejam iguais
+            assertEquals(OBJETO_NAO_ENCONTRADO_NO_ID, ex.getMessage()); //assegure que as messagens de erro sejam iguais
         }
     }
 
@@ -140,6 +140,17 @@ class UserServiceImplTest {
         userServiceImpl.delete(ID);
         verify(userRepository, times(1)).deleteById(anyInt());
         //verifica quantas vezes o metodo foi chamado e espera que o metodo delete seja chamado uma vez
+    }
+    @Test
+    void deleteWhitObjectNotFoundException(){
+        when(userRepository.findById(anyInt()))
+                .thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO_NO_ID));
+        try {
+            userServiceImpl.delete(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO_NO_ID, ex.getMessage());
+        }
     }
 
     private void startUser() {
