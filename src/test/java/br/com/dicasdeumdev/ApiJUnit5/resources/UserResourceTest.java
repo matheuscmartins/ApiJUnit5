@@ -10,6 +10,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class UserResourceTest {
@@ -37,7 +44,23 @@ class UserResourceTest {
     }
 
     @Test
-    void fingById() {
+    void whenFindByIdThenReturnSuccess() {
+        when(userService.findById(anyInt())).thenReturn(user); //verifica se irá trazer um obj User
+        when(mapper.map(any(), any())).thenReturn(userDTO); // verifica se a conversão retornara um objUserDTO
+
+        ResponseEntity<UserDTO> response = userResource.findById(ID);
+        assertNotNull(response); //assegura que a resposta não será nula
+        assertNotNull(response.getBody()); //assegura que o corpo da resposta não é null
+        assertEquals(ResponseEntity.class, response.getClass()); //assegura que srão o mesmo tipo de class
+
+        assertEquals(UserDTO.class, response.getBody().getClass());
+        //assegura que o body de retorno é o mesmo da Classe UserDTO
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
+        assertEquals(PASSWORD, response.getBody().getPassword());
+
     }
 
     @Test

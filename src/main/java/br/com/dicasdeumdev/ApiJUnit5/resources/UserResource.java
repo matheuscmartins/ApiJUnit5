@@ -22,7 +22,7 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping(value = ID)
-    public ResponseEntity<UserDTO> fingById(@PathVariable Integer id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(mapper.map(userService.findById(id), UserDTO.class)); //Fonte USER, Destino USERDTO
         //Pega os atributos do User e retorna ao cliente um USERDTO por questão de segurança
     }
