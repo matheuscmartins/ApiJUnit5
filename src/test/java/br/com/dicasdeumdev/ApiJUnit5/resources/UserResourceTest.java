@@ -20,7 +20,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserResourceTest {
@@ -116,7 +116,14 @@ class UserResourceTest {
     }
 
     @Test
-    void delete() {
+    void whenDeleteThenReturnSuccess() {
+        doNothing().when(userService).delete(anyInt()); //não faça nada quando o metodo chamar o delete
+        ResponseEntity<UserDTO> response = userResource.delete(ID);
+
+        assertNotNull(response); //assegura que não seja null
+        assertEquals(ResponseEntity.class, response.getClass()); //assegura que é uma classe de ResponseEntity
+        verify(userService, times(1)).delete(anyInt()); //assegura que o metedo seja chamado 1x
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode()); //assegura que o status é de No_Content
     }
     private void startUser() {
         user = new User(ID, NAME, EMAIL, PASSWORD);
