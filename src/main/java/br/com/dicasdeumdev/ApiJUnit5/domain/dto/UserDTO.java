@@ -3,13 +3,11 @@ package br.com.dicasdeumdev.ApiJUnit5.domain.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 //classe de segurança para que o cliente não acesse diréto a Classe USER
 @Getter @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserDTO {
 
     private Integer id;
