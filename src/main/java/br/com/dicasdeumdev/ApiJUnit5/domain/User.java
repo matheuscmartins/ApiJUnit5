@@ -1,18 +1,24 @@
 package br.com.dicasdeumdev.ApiJUnit5.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
 
-@Data //cria substitui o Getter Setter HashCodeEquals e ToString, porem se tiver muitos atributos deixa a API lenta
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data //substitui hashCodeEquals, ToString e Getters Setters, porem se a classe tiver muitos atributos afeta a performace da API
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @Column(unique = true) //não pode ter mesmo e-mail
+
+    @Column(unique = true)
     private String email;
     private String password;
 

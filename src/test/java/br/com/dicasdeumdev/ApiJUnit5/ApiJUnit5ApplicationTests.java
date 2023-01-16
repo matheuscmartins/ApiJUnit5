@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ApiJUnit5ApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main() { //alterar para main
+		ApiJUnit5Application.main(new String[] {});
 	}
 
 }
